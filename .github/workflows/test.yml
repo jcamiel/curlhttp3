@@ -15,4 +15,5 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
+            pacman --noconfirm -Syu git
             ./run.sh
