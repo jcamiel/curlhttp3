@@ -18,7 +18,7 @@ jobs:
 
             pacman --noconfirm -Syu git
             
-            pacman --noconfirm -Syu  \
+            pacman --noconfirm -Sy  \
               bash \
               sudo \
               openssl \
@@ -34,7 +34,7 @@ jobs:
               jq
             
             # Temporary install to patch a python3/pip crash
-            pacman -Syu --noconfirm expat
+            pacman -Sy --noconfirm expat
   
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             export PATH=$HOME/.cargo/bin:$PATH
