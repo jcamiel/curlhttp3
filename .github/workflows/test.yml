@@ -26,7 +26,7 @@ jobs:
               #python3 \
               #python-pip \
               #icu \
-              #base-devel \
+              base-devel \
               libxml2 \
               glibc \
               #openbsd-netcat \
