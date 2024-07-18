@@ -23,17 +23,18 @@ jobs:
               bash \
               sudo \
               openssl \
-              python3 \
-              python-pip \
-              icu \
-              base-devel \
+              #python3 \
+              #python-pip \
+              #icu \
+              #base-devel \
               libxml2 \
               glibc \
-              openbsd-netcat \
-              squid \
-              jq
-              # Temporary install to patch a python3/pip crash
-              pacman -Sy --noconfirm expat
+              #openbsd-netcat \
+              #squid \
+              #jq
+            
+            # Temporary install to patch a python3/pip crash
+            pacman -Sy --noconfirm expat
   
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             export PATH=$HOME/.cargo/bin:$PATH
