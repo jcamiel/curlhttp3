@@ -6,59 +6,12 @@ jobs:
   test-docker-archlinux-x64:
     runs-on: ubuntu-latest
     steps:
-      - name: Tests HTTP/3
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Bissect
         uses: addnab/docker-run-action@v3
         with:
           image: archlinux
           run: |
-            echo "::group::Env"
-            pacman --noconfirm -Syu hurl
-            curl --version
-            hurl --version
-            echo "::endgroup::"
-            echo "::group::curl HEAD HTTP/2"
-            curl --head --http2 --verbose https://google.com
-            echo "::endgroup::"
-            echo "::group::curl HEAD HTTP/3"
-            curl --head --http3 --verbose https://google.com
-            echo "::endgroup::"
-            echo "::group::hurl HEAD HTTP/3"
-            echo 'HEAD https://google.com' | hurl --http3 --very-verbose
-            echo "::endgroup::"
-            echo "::group::hurl HEAD HTTP/2 then HTTP/3"
-            hurl --very-verbose <<-EOF
-
-            # Live tests on google.com
-            HEAD https://google.com
-            HTTP/2 *
-              
-              
-            HEAD https://google.com
-            [Options]
-            http3: true
-            HTTP/3 *
-              
-              
-            HEAD https://google.com
-            [Options]
-            http3: false
-            HTTP/2 *
-              
-              
-            # Downgrade to HTTP 2 is working
-            HEAD https://google.com
-            [Options]
-            http2: true
-            HTTP/2 *
-              
-              
-            # Downgrade to HTTP 1.1 is working
-            HEAD https://google.com
-            [Options]
-            http1.1: true
-            HTTP/1.1 *
-            
-            
-            EOF
-            echo "::endgroup::"
-
+            run.sh
