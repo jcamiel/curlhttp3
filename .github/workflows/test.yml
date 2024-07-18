@@ -15,27 +15,26 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            #pacman --noconfirm -Syu git curl
-            
+
             pacman --noconfirm -Syu git
             
-            pacman -Sy --noconfirm \
+            pacman --noconfirm -Syu  \
               bash \
               sudo \
               openssl \
-              #python3 \
-              #python-pip \
-              #icu \
+              python3 \
+              python-pip \
+              icu \
               base-devel \
               libxml2 \
               glibc \
-              gcc \
-              #openbsd-netcat \
-              #squid \
-              #jq
+              gcc
+              openbsd-netcat \
+              squid \
+              jq
             
             # Temporary install to patch a python3/pip crash
-            pacman -Sy --noconfirm expat
+            pacman -Syu --noconfirm expat
   
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             export PATH=$HOME/.cargo/bin:$PATH
