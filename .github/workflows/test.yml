@@ -15,5 +15,7 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            pacman --noconfirm -Syu git
+            pacman --noconfirm -Syu git curl
+            pacman --noconfirm -Syu pkgconf gcc glibc openssl libxml2
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
             ./run.sh
