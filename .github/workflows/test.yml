@@ -28,7 +28,7 @@ jobs:
               base-devel \
               libxml2 \
               glibc \
-              gcc
+              gcc \
               openbsd-netcat \
               squid \
               jq
