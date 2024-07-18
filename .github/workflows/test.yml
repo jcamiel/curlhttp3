@@ -15,6 +15,4 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            pwd
-            find
-            run.sh
+            ./run.sh
