@@ -1,15 +1,31 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-rm -rfd build
-mkdir build
-cd build
-git clone https://github.com/Orange-OpenSource/hurl
-cd hurl
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <url> <number_of_times> <sleep_interval_in_seconds>"
+    exit 1
+fi
 
 
-#git bisect start
-#git bisect good e3a8fab4161449e248c885e4820ccbc281f04cbd
-#git bisect bad 80b499042c887ebf51dd91398e6436bc86d2c77b
-#git bisect run ../../test.sh
-../../test.sh
+# Assign arguments to variables
+URL=$1
+N=$2
+SLEEP_INTERVAL=$3
+
+
+# Loop N times
+for (( i=1; i<=N; i++ ))
+do
+    echo "Request #$i:"
+
+    # Perform the curl request and display the HTTP status code and time
+    curl --http3 -s -o /dev/null -w "HTTP Status: %{http_code}, Time: %{time_total} s\n" "$URL"
+
+    # Sleep between requests if not the last request
+    if [ "$i" -lt "$N" ]; then
+        sleep "$SLEEP_INTERVAL"
+    fi
+done
+
+echo "Completed $N requests to $URL."
