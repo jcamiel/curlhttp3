@@ -2,5 +2,5 @@
 set -Eeuo pipefail
 
 cd hurl
-cargo --release build
+cargo build --release
 
