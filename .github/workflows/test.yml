@@ -15,5 +15,9 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            curl --version
-            ./run.sh https://google.com 100 1
+            echo "::group::curl HEAD HTTP/3"
+            ./curl.sh https://google.com 20 1
+            echo "::engroup::"
+            echo "::group::hurl HEAD HTTP/3"
+            ./hurl.sh https://google.com 20 1
+            echo "::engroup::"
