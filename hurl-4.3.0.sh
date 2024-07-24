@@ -8,7 +8,6 @@ if [ "$#" -ne 3 ]; then
 fi
 
 hurl --version
-which hurl
 ldd /usr/bin/hurl
 
 # Assign arguments to variables
