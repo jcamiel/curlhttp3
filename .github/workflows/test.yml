@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
 
-      - name: Run licurl HTTP3
+      - name: Run libcurl HTTP3
         uses: addnab/docker-run-action@v3
         with:
           image: archlinux
