@@ -78,6 +78,9 @@ int main(int argc, char *argv[])
     CURL *hnd;
 
     hnd = curl_easy_init();
+
+    curl_easy_reset(hnd);
+
     curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, 102400L);
     curl_easy_setopt(hnd, CURLOPT_URL, "https://google.com");
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
@@ -88,7 +91,11 @@ int main(int argc, char *argv[])
     curl_easy_setopt(hnd, CURLOPT_FILETIME, 1L);
     curl_easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt(hnd, CURLOPT_FTP_SKIP_PASV_IP, 1L);
-    curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
+
+    curl_easy_setopt(hnd, CURLOPT_COOKIEFILE, "");
+    curl_easy_setopt(hnd, CURLOPT_CERTINFO, 1L);
+    curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 1L);
 
     ret = curl_easy_perform(hnd);
 
