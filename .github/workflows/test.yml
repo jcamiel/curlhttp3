@@ -17,9 +17,14 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            echo "::group::gcc build installation"
+            echo "::group::Installation prerequisites"
             pacman -Syu --noconfirm curl pkgconf gcc
             echo "::engroup::"
-            
+
+            echo "::group::Build"
             ./build.sh
-            ./main
+            echo "::engroup::"
+
+            echo "::group::Run"
+            ./libcurl.sh 20 1
+            echo "::engroup::"
