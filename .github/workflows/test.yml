@@ -28,5 +28,5 @@ jobs:
             echo "::engroup::"
 
             echo "::group::Run"
-            ./run_hurl-5.0.0.sh 20 1
+            ./run_hurl-5.0.0.sh https://google.com 20 1
             echo "::engroup::"
