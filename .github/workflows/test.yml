@@ -21,10 +21,12 @@ jobs:
             ./setup_build_hurl.sh
             echo "::engroup::"
 
+            export PATH=$HOME/.cargo/bin:$PATH
+
             echo "::group::Build"
             ./build_hurl.sh
             echo "::engroup::"
 
             echo "::group::Run"
-            ./run_hurk-5.0.0.sh 20 1
+            ./run_hurl-5.0.0.sh 20 1
             echo "::engroup::"
