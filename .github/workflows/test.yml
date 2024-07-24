@@ -17,17 +17,18 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
+            set -Eeuo pipefail
+
             echo "::group::Installation Hurl prerequisites"
             ./setup_build_hurl.sh
-            echo "::engroup::"
+            echo "::endgroup::"
 
             export PATH=$HOME/.cargo/bin:$PATH
 
             echo "::group::Build"
             ./build_hurl.sh
-            echo "::engroup::"
+            echo "::endgroup::"
 
             echo "::group::Run"
             ./run_hurl-5.0.0.sh https://google.com 20 1
-            echo "Poutto ret=$?"
-            echo "::engroup::"
+            echo "::endgroup::"
