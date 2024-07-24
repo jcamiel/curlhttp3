@@ -29,4 +29,5 @@ jobs:
 
             echo "::group::Run"
             ./run_hurl-5.0.0.sh https://google.com 20 1
+            echo "Poutto ret=$?"
             echo "::engroup::"

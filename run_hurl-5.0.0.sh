@@ -25,6 +25,7 @@ do
 
     # Perform the curl request and display the HTTP status code and time
     echo "HEAD $URL" | $HURL --max-time 20 --http3 --very-verbose
+    echo "Pinto ret=$?"
 
     # Sleep between requests if not the last request
     if [ "$i" -lt "$N" ]; then
