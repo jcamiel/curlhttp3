@@ -17,9 +17,15 @@ jobs:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
+            echo "::group::hurl installation"
+            pacman -Syu --noconfirm hurl
+            echo "::engroup::"
             echo "::group::curl HEAD HTTP/3"
             ./curl.sh https://google.com 20 1
             echo "::engroup::"
-            echo "::group::hurl HEAD HTTP/3"
-            ./hurl.sh https://google.com 20 1
+            echo "::group::hurl 5.0.0 HEAD HTTP/3"
+            ./hurl-5.0.0.sh https://google.com 20 1
+            echo "::engroup::"
+            echo "::group::hurl 4.3.0 HEAD HTTP/3"
+            ./hurl-4.3.0.sh https://google.com 20 1
             echo "::engroup::"
