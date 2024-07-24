@@ -11,25 +11,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
 
-      - name: Run curl HTTP3
+      - name: Run licurl HTTP3
         uses: addnab/docker-run-action@v3
         with:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            echo "::group::hurl installation"
-            pacman -Syu --noconfirm hurl
+            echo "::group::gcc build installation"
+            pacman -Syu --noconfirm curl pkgconf gcc
             echo "::engroup::"
             
-            echo "::group::hurl 4.3.0 HEAD HTTP/3"
-            ./hurl-4.3.0.sh https://google.com 20 1
-            echo "::engroup::"
-
-            echo "::group::hurl 5.0.0 HEAD HTTP/3"
-            ./hurl-5.0.0.sh https://google.com 20 1
-            echo "::engroup::"
-
-            echo "::group::curl HEAD HTTP/3"
-            ./curl.sh https://google.com 20 1
-            echo "::engroup::"
-
+            ./build.sh
+            ./main
