@@ -18,7 +18,7 @@ jobs:
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
             echo "::group::hurl installation"
-            pacman -Sy --noconfirm hurl
+            pacman -Syu --noconfirm hurl
             echo "::engroup::"
             
             echo "::group::hurl 4.3.0 HEAD HTTP/3"
