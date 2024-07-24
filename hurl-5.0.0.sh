@@ -22,7 +22,7 @@ do
     echo "Request #$i:"
 
     # Perform the curl request and display the HTTP status code and time
-    echo "HEAD $URL" | bin/hurl --http3 --very-verbose
+    echo "HEAD $URL" | bin/hurl --max-time 20 --http3 --very-verbose
 
     # Sleep between requests if not the last request
     if [ "$i" -lt "$N" ]; then
