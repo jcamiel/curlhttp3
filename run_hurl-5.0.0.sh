@@ -7,8 +7,10 @@ if [ "$#" -ne 3 ]; then
     exit 1
 fi
 
-bin/hurl --version
-ldd bin/hurl
+HURL=hurl/target/release/hurl
+
+$HURL --version
+ldd $HURL
 
 # Assign arguments to variables
 URL=$1
@@ -22,7 +24,7 @@ do
     echo "Request #$i:"
 
     # Perform the curl request and display the HTTP status code and time
-    echo "HEAD $URL" | bin/hurl --max-time 20 --http3 --very-verbose
+    echo "HEAD $URL" | $HURL --max-time 20 --http3 --very-verbose
 
     # Sleep between requests if not the last request
     if [ "$i" -lt "$N" ]; then

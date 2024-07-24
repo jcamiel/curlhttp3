@@ -5,26 +5,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-docker-archlinux-x64:
+  test-hurl-docker-archlinux-x64:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
 
-      - name: Run libcurl HTTP3
+      - name: Run hurl HTTP3
         uses: addnab/docker-run-action@v3
         with:
           image: archlinux
           options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
           run: |
-            echo "::group::Installation prerequisites"
-            pacman -Syu --noconfirm curl pkgconf gcc
+            echo "::group::Installation Hurl prerequisites"
+            ./setup_build_hurl.sh
             echo "::engroup::"
 
             echo "::group::Build"
-            ./build.sh
+            ./build_hurl.sh
             echo "::engroup::"
 
             echo "::group::Run"
-            ./libcurl.sh 20 1
+            ./run_hurk-5.0.0.sh 20 1
             echo "::engroup::"
