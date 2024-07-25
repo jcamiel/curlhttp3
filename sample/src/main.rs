@@ -1,43 +1,44 @@
-use curl::easy;
-use curl::easy::HttpVersion;
-use std::fmt;
-use std::fmt::Formatter;
-use std::time::Duration;
+use curl_sys::CURLcode;
+use std::ffi::{c_long, CString};
 
-#[derive(Clone, Debug)]
-struct Error(String);
-
-impl fmt::Display for Error {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-impl From<curl::Error> for Error {
-    fn from(e: curl::Error) -> Self {
-        let code = e.code() as i32; // due to windows build
-        let description = match e.extra_description() {
-            None => e.description().to_string(),
-            Some(s) => s.to_string(),
-        };
-        Error(format!("{code}: {description}"))
-    }
-}
-
-fn main() -> Result<(), Error> {
+fn main() {
     let args = std::env::args().collect::<Vec<_>>();
     let url = &args[1];
 
-    let mut handle = easy::Easy::new();
+    unsafe {
+        curl_sys::curl_global_init(curl_sys::CURL_GLOBAL_ALL);
 
-    handle.url(url)?;
-    handle.nobody(true)?;
-    handle.http_version(HttpVersion::V3)?;
-    handle.verbose(true)?;
-    handle.timeout(Duration::from_secs(20))?;
+        let handle = curl_sys::curl_easy_init();
 
-    let transfer = handle.transfer();
-    transfer.perform()?;
+        let url = CString::new(url.as_str()).unwrap();
 
-    Ok(())
+        let ret = curl_sys::curl_easy_setopt(handle, curl_sys::CURLOPT_URL, url.as_ptr());
+        ok_or_exit(ret);
+
+        let ret = curl_sys::curl_easy_setopt(handle, curl_sys::CURLOPT_NOBODY, 1 as c_long);
+        ok_or_exit(ret);
+
+        let ret = curl_sys::curl_easy_setopt(
+            handle,
+            curl_sys::CURLOPT_HTTP_VERSION,
+            curl_sys::CURL_HTTP_VERSION_3 as c_long,
+        );
+        ok_or_exit(ret);
+
+        let ret = curl_sys::curl_easy_setopt(handle, curl_sys::CURLOPT_VERBOSE, 1 as c_long);
+        ok_or_exit(ret);
+
+        let ret =
+            curl_sys::curl_easy_setopt(handle, curl_sys::CURLOPT_TIMEOUT_MS, 20 * 1000 as c_long);
+        ok_or_exit(ret);
+
+        let ret = curl_sys::curl_easy_perform(handle);
+        ok_or_exit(ret);
+    }
+}
+
+fn ok_or_exit(code: CURLcode) {
+    if code != curl_sys::CURLE_OK {
+        std::process::exit(code as i32)
+    }
 }
