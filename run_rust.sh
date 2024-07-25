@@ -22,7 +22,7 @@ for (( i=1; i<=N; i++ ))
 do
     echo "Request #$i:"
 
-    $BINARY
+    $BINARY "$URL"
 
     # Sleep between requests if not the last request
     if [ "$i" -lt "$N" ]; then

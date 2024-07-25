@@ -37,9 +37,9 @@ impl Client {
         Client { handle }
     }
 
-    pub fn execute(&mut self) -> Result<(), Error>{
+    pub fn execute(&mut self, url: &str) -> Result<(), Error>{
         self.handle.reset();
-        self.configure()?;
+        self.configure(url)?;
 
         let mut response_body = Vec::<u8>::new();
         {
@@ -53,34 +53,35 @@ impl Client {
         Ok(())
     }
 
-    fn configure(&mut self) -> Result<(), Error>{
-        self.handle.cookie_file("")?;
+    fn configure(&mut self, url: &str) -> Result<(), Error>{
+        // self.handle.cookie_file("")?;
         self.handle.http_version(HttpVersion::V3)?;
-        self.handle.ip_resolve(IpResolve::Any)?;
-        self.handle.certinfo(true)?;
-        self.handle.ssl_verify_host(true)?;
-        self.handle.ssl_verify_peer(true)?;
-        self.handle.path_as_is(false)?;
+        // self.handle.ip_resolve(IpResolve::Any)?;
+        // self.handle.certinfo(true)?;
+        // self.handle.ssl_verify_host(true)?;
+        // self.handle.ssl_verify_peer(true)?;
+        // self.handle.path_as_is(false)?;
         self.handle.timeout(Duration::from_secs(20))?;
         self.handle.connect_timeout(Duration::from_secs(20))?;
-        self.set_ssl_options(false)?;
-        self.handle.url("https://google.com")?;
+        // self.set_ssl_options(false)?;
+        self.handle.url(url)?;
         self.handle.custom_request("HEAD")?;
         self.handle.nobody(true)?;
         Ok(())
     }
 
-    fn set_ssl_options(&mut self, no_revoke: bool) -> Result<(), Error> {
-        let mut ssl_opt = SslOpt::new();
-        ssl_opt.no_revoke(no_revoke);
-        self.handle.ssl_options(&ssl_opt)?;
-        Ok(())
-    }
+    // fn set_ssl_options(&mut self, no_revoke: bool) -> Result<(), Error> {
+    //     let mut ssl_opt = SslOpt::new();
+    //     ssl_opt.no_revoke(no_revoke);
+    //     self.handle.ssl_options(&ssl_opt)?;
+    //     Ok(())
+    // }
 }
 
 
 fn main() -> Result<(), Error> {
+    let args = std::env::args().collect::<Vec<_>>();
     let mut client = Client::new();
-    client.execute()?;
+    client.execute(&args[1])?;
     Ok(())
 }
