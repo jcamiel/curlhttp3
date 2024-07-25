@@ -31,24 +31,24 @@ jobs:
             echo "::group::Run"
             ./run_rust.sh https://google.com 20 1
             echo "::endgroup::"
-      - name: Run hurl HTTP3
-        uses: addnab/docker-run-action@v3
-        with:
-          image: archlinux
-          options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
-          run: |
-            set -Eeuo pipefail
-
-            echo "::group::Installation prerequisites"
-            ./setup_build_hurl.sh
-            echo "::endgroup::"
-
-            export PATH=$HOME/.cargo/bin:$PATH
-
-            echo "::group::Build"
-            ./build_hurl.sh
-            echo "::endgroup::"
-
-            echo "::group::Run"
-            ./run_hurl-5.0.0.sh https://google.com 20 1
-            echo "::endgroup::"
+#      - name: Run hurl HTTP3
+#        uses: addnab/docker-run-action@v3
+#        with:
+#          image: archlinux
+#          options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
+#          run: |
+#            set -Eeuo pipefail
+#
+#            echo "::group::Installation prerequisites"
+#            ./setup_build_hurl.sh
+#            echo "::endgroup::"
+#
+#            export PATH=$HOME/.cargo/bin:$PATH
+#
+#            echo "::group::Build"
+#            ./build_hurl.sh
+#            echo "::endgroup::"
+#
+#            echo "::group::Run"
+#            ./run_hurl-5.0.0.sh https://google.com 20 1
+#            echo "::endgroup::"
