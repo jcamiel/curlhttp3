@@ -24,7 +24,7 @@ do
     echo "Request #$i:"
 
     # Perform the curl request and display the HTTP status code and time
-    echo "HEAD $URL" | $HURL --max-time 20 --http3 --retry 5 --very-verbose
+    echo "HEAD $URL" | $HURL --max-time 20 --http3
 
     # Sleep between requests if not the last request
     if [ "$i" -lt "$N" ]; then
