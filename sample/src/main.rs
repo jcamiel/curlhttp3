@@ -29,15 +29,26 @@ fn main() -> Result<(), Error> {
     let url = &args[1];
 
     let mut handle = easy::Easy::new();
+
     handle.reset();
 
-    // Configure HTTP/3 + timeout + HEAD
+    handle.buffer_size(102400)?;
+    handle.url(url)?;
+    handle.progress(false)?;
+    handle.nobody(true)?;
+    handle.useragent("sample/0.0.1")?;
+    handle.max_redirections(50)?;
     handle.http_version(HttpVersion::V3)?;
+    handle.fetch_filetime(true)?;
+    handle.verbose(true)?;
+
+    handle.cookie_file("")?;
+    handle.certinfo(true)?;
+    handle.ssl_verify_peer(true)?;
+    handle.ssl_verify_host(true)?;
+
     handle.timeout(Duration::from_secs(20))?;
     handle.connect_timeout(Duration::from_secs(20))?;
-    handle.url(url)?;
-    handle.custom_request("HEAD")?;
-    handle.nobody(true)?;
 
     let transfer = handle.transfer();
     transfer.perform()?;
