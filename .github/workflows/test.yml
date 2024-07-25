@@ -10,7 +10,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
+      - name: Run rust HTTP3
+        uses: addnab/docker-run-action@v3
+        with:
+          image: archlinux
+          options: --volume ${{ github.workspace }}:/work --workdir /work --privileged
+          run: |
+            set -Eeuo pipefail
 
+            echo "::group::Installation prerequisites"
+            ./setup_build_rust.sh
+            echo "::endgroup::"
+
+            export PATH=$HOME/.cargo/bin:$PATH
+
+            echo "::group::Build"
+            ./build_rust.sh
+            echo "::endgroup::"
+
+            echo "::group::Run"
+            ./run_rust.sh https://google.com 100 1
+            echo "::endgroup::"
       - name: Run hurl HTTP3
         uses: addnab/docker-run-action@v3
         with:
@@ -19,7 +39,7 @@ jobs:
           run: |
             set -Eeuo pipefail
 
-            echo "::group::Installation Hurl prerequisites"
+            echo "::group::Installation prerequisites"
             ./setup_build_hurl.sh
             echo "::endgroup::"
 
