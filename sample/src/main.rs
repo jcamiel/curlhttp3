@@ -1,10 +1,10 @@
+use std::ffi::CString;
+use curl::easy::Easy;
 use curl_sys::CURLcode;
-use std::ffi::{c_long, CString};
+use libc::c_long;
 
-fn main() {
-    let args = std::env::args().collect::<Vec<_>>();
-    let url = &args[1];
 
+fn curl_bindings(url: &str) {
     unsafe {
         curl_sys::curl_global_init(curl_sys::CURL_GLOBAL_ALL);
 
@@ -36,6 +36,27 @@ fn main() {
         ok_or_exit(ret);
     }
 }
+
+
+fn curl_easy(url: &str) {
+    let handle = Easy::new();
+
+}
+
+
+
+
+
+
+fn main() {
+    let args = std::env::args().collect::<Vec<_>>();
+    let url = &args[1];
+
+    curl_bindings(url);
+}
+
+
+
 
 fn ok_or_exit(code: CURLcode) {
     if code != curl_sys::CURLE_OK {
