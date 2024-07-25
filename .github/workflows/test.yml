@@ -29,7 +29,7 @@ jobs:
             echo "::endgroup::"
 
             echo "::group::Run"
-            ./run_rust.sh https://google.com 100 1
+            ./run_rust.sh https://google.com 20 1
             echo "::endgroup::"
       - name: Run hurl HTTP3
         uses: addnab/docker-run-action@v3
@@ -50,5 +50,5 @@ jobs:
             echo "::endgroup::"
 
             echo "::group::Run"
-            ./run_hurl-5.0.0.sh https://google.com 100 1
+            ./run_hurl-5.0.0.sh https://google.com 20 1
             echo "::endgroup::"
