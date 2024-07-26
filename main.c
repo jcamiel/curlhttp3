@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
     curl_easy_reset(hnd);
 
     curl_easy_setopt(hnd, CURLOPT_URL, "https://google.com");
+    curl_easy_setopt(hnd, CURLOPT_TIMEOUT, 20L);
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_NOBODY, 1L);
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
