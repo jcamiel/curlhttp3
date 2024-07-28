@@ -10,10 +10,13 @@ int main(int argc, char *argv[]) {
 
     char *data = "";
 
-
     hnd = curl_easy_init();
 
+
     curl_easy_reset(hnd);
+
+    // Activate debug traces.
+    curl_global_trace("http/3,ssl");
 
     curl_easy_setopt(hnd, CURLOPT_URL, "https://google.com");
     curl_easy_setopt(hnd, CURLOPT_TIMEOUT, 20L);
@@ -24,6 +27,7 @@ int main(int argc, char *argv[]) {
     curl_easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt(hnd, CURLOPT_SSL_CTX_FUNCTION, *sslctx_function);
     curl_easy_setopt(hnd, CURLOPT_SSL_CTX_DATA, data);
+
     ret = curl_easy_perform(hnd);
 
     curl_easy_cleanup(hnd);
